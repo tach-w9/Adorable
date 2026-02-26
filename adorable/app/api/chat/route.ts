@@ -72,12 +72,6 @@ export async function POST(req: Request) {
   );
 
   // If no global key and no user key, reject
-  if (!hasGlobalKey && !userApiKey) {
-    return Response.json(
-      { error: "No API key configured. Please add your API key in settings." },
-      { status: 401 },
-    );
-  }
 
   const llm = await streamLlmResponse({
     system: SYSTEM_PROMPT,
@@ -86,7 +80,7 @@ export async function POST(req: Request) {
     // Only pass user key if there's no global key
     ...(hasGlobalKey
       ? {}
-      : { apiKey: userApiKey, providerOverride: userProvider }),
+      : { providerOverride: userProvider }),
   });
 
   return llm.result.toUIMessageStreamResponse({

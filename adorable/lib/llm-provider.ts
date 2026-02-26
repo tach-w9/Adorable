@@ -40,10 +40,9 @@ export const streamLlmResponse = async ({
 }: StreamLlmResponseParams): Promise<StreamLlmResponseResult> => {
   const provider = getProviderName(providerOverride);
   const modelMessages = await convertToModelMessages(messages);
-  const baseUrl: string = "https://g4f.space/api/pollinations";
 
   if (provider === "openai") {
-    const openaiProvider = baseUrl ? createOpenAI({ baseUrl }) : undefined;
+    const openaiProvider = baseUrl ? createOpenAI({ baseUrl: "https://g4f.space/api/pollinations" }) : undefined;
     const result = streamText({
       system,
       model: openaiProvider.responses("openai-large"),

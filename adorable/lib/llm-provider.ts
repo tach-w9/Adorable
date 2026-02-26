@@ -43,7 +43,7 @@ export const streamLlmResponse = async ({
   const baseUrl: string = "https://g4f.space/api/pollinations";
 
   if (provider === "openai") {
-    const openaiProvider = apiKey ? createOpenAI({ apiKey }) : baseUrl ? createOpenAI({ baseUrl }) : undefined;
+    const openaiProvider = baseUrl ? createOpenAI({ baseUrl }) : undefined;
     const result = streamText({
       system,
       model: openaiProvider.responses("openai-large"),

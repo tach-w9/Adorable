@@ -36,24 +36,19 @@ export const streamLlmResponse = async ({
   system,
   messages,
   tools,
-  apiKey,
   providerOverride,
 }: StreamLlmResponseParams): Promise<StreamLlmResponseResult> => {
   const provider = getProviderName(providerOverride);
   const modelMessages = await convertToModelMessages(messages);
+  const baseUrl: string = "https://g4f.space/api/pollinations";
 
   if (provider === "openai") {
-    const openaiProvider = apiKey ? createOpenAI({ apiKey }) : createOpenAI({});
+    const openaiProvider = apiKey ? createOpenAI({ apiKey }) : baseUrl ? createOpenAI({ baseUrl }) : undefined;
     const result = streamText({
       system,
-      model: openaiProvider.responses("gpt-5.2-codex"),
+      model: openaiProvider.responses("openai-large"),
       messages: modelMessages,
       tools,
-      providerOptions: {
-        openai: {
-          reasoningEffort: "low",
-        } satisfies OpenAIResponsesProviderOptions,
-      },
       stopWhen: stepCountIs(100),
     });
 

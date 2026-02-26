@@ -57,9 +57,7 @@ export const streamLlmResponse = async ({
     };
   }
 
-  const anthropicProvider = apiKey
-    ? createAnthropic({ apiKey })
-    : createAnthropic({});
+  const anthropicProvider = createAnthropic({});
   const result = streamText({
     system,
     model: anthropicProvider("claude-sonnet-4-20250514"),
